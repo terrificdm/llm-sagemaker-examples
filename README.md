@@ -5,6 +5,8 @@
 
 * chatglm3-streaming-deploy.ipynb is a streaming outputs example deployed on SageMaker.  
 
-* bedrock-langchain-vectordb.ipynb is an example for combining bedrock-claude with vectorDB for llm+RAG usecase.
+* bedrock-langchain-vectordb.ipynb is an example for combining bedrock-claude with vectorDB for llm+RAG usecase.  
+
+* bedrock-knowledgebase.ipynb is an example for combining bedrock-claude with KnowledgeBase for llm+RAG usecase.
 
 > Stay tuned ...
