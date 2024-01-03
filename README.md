@@ -7,6 +7,6 @@
 
 * bedrock-langchain-vectordb.ipynb is an example for combining bedrock-claude with vectorDB for llm+RAG usecase.  
 
-* bedrock-knowledgebase.ipynb is an example for combining bedrock-claude with KnowledgeBase for llm+RAG usecase.
+* bedrock-knowledgebase-streamlit.ipynb is an example for combining bedrock-claude, KnowledgeBase and Streamlit for llm+RAG usecase.
 
 > Stay tuned ...
