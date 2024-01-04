@@ -67,6 +67,7 @@ def process_query(query, context):
             'text': query
         },
         knowledgeBaseId = knowledge_base_id,
+        # knowledgeBaseId = 'CYSGMDTTYU',
         retrievalConfiguration= {
             'vectorSearchConfiguration': {
                 'numberOfResults': 3
@@ -85,7 +86,7 @@ def build_context(context, query, output_str):
 # 以上代码定义了一个游戏客服机器人示例
 
 with st.sidebar:
-    st.title('Bedrock-Claude-ChatBot 🚀')
+    st.title('Bedrock-Claude-ChatBot 🎈')
     # aws_access_key = st.text_input("AWS Access Key", key="aws_access_key", type="password")
     # aws_secret_key = st.text_input("AWS Secret Key", key="aws_secret_key", type="password")
     st.subheader('Models and parameters')
@@ -114,30 +115,42 @@ with st.sidebar:
         label="Number of tokens to generate",
         key="max_new_token"
     )
-    temperature = st.slider(
-        min_value=0.1,
-        max_value=1.0,
-        step=0.1,
-        value=0.5,
-        label="Temperature",
-        key="temperature"
-    )
-    top_p = st.slider(
-        min_value=0.0,
-        max_value=1.0,
-        step=0.1,
-        value=1.0,
-        label="Top P",
-        key="top_p"
-    )
-    top_k = st.slider(
-        min_value=0,
-        max_value=500,
-        step=1,
-        value=250,
-        label="Top K",
-        key="top_k"
-    )
+    
+    col1, col2 = st.columns([4,1])
+    with col1:
+        temperature = st.slider(
+            min_value=0.1,
+            max_value=1.0,
+            step=0.1,
+            value=0.5,
+            label="Temperature",
+            key="temperature"
+        )
+        top_p = st.slider(
+            min_value=0.0,
+            max_value=1.0,
+            step=0.1,
+            value=1.0,
+            label="Top P",
+            key="top_p"
+        )
+        top_k = st.slider(
+            min_value=0,
+            max_value=500,
+            step=1,
+            value=250,
+            label="Top K",
+            key="top_k"
+        )
+    # with col2:
+    #     top_k = st.slider(
+    #         min_value=0,
+    #         max_value=500,
+    #         step=1,
+    #         value=250,
+    #         label="Top K",
+    #         key="top_k"
+    #     )
     st.sidebar.button("Clear Conversation", type="primary", key="clear_conversation", on_click=clear_conversation)
 
 with st.chat_message("assistant"):
