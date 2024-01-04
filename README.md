@@ -1,5 +1,5 @@
 # LLM on AWS SageMaker Examples
-> Standard SageMaker notebook should run below demos. e.g. "ml.t3.medium"
+> A standard SageMaker notebook instance should be sufficient to run below demos. e.g. "ml.t3.medium"
 * chatglm2-langchain-vetordb_deploy.ipynb is an example for deploying [THUDM/chatglm2-6b](https://huggingface.co/THUDM/chatglm2-6b) with vectorDB [Chroma](https://docs.trychroma.com/) and [LangChain](https://python.langchain.com) on AWS SageMaker Platform, targeting at building private query-answer system powered by vectorDB and LLM.
 
 * baichuan13b-langchain-vetordb_deploy.ipynb is an example for deploying [baichuan-inc/Baichuan-13B-Chat](https://huggingface.co/baichuan-inc/Baichuan-13B-Chat) with vectorDB [Chroma](https://docs.trychroma.com/) and [LangChain](https://python.langchain.com)(ducument processing only) on AWS SageMaker Platform, targeting at building private query-answer system powered by vectorDB and LLM.
