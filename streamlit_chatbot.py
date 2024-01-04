@@ -169,7 +169,8 @@ if query := st.chat_input("说点什么吧"):
             "max_tokens_to_sample": max_new_tokens,
             "temperature": temperature,
             "top_p": top_p,
-            "top_k": top_k
+            "top_k": top_k,
+            "stop_sequences": ["\n\nHuman:", "\n\n</", "</"]
         })
         response = bedrock_runtime.invoke_model_with_response_stream(body=body, modelId=model_id)
         stream = response.get('body')
@@ -179,8 +180,10 @@ if query := st.chat_input("说点什么吧"):
                 if chunk:
                     output = json.loads(chunk.get('bytes').decode())
                     full_response += output['completion'] + ''
-                    full_response_clean = re.sub(r'<\s*/?\w+[^>]*>', '', full_response) # Remove full tags
-                    full_response_final = re.sub(r'</\w+', '', full_response_clean) # Remove imcomplete tags
-                    message_placeholder.markdown(full_response_final)
+                    # full_response_clean = re.sub(r'<\s*/?\w+[^>]*>', '', full_response) # Remove full tags
+                    # full_response_final = re.sub(r'</\w+', '', full_response_clean) # Remove imcomplete tags
+                    # message_placeholder.markdown(full_response_final)
+                    message_placeholder.markdown(full_response)
     # Add assistant response to chat history
-    st.session_state.messages.append({"role": "assistant", "content": full_response_final})
+    # st.session_state.messages.append({"role": "assistant", "content": full_response_final})
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
