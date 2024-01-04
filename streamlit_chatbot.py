@@ -6,8 +6,8 @@ import boto3
 import streamlit as st
 
 # Load "knowledge_base_id" from local file
-with open('/tmp/knowledge_base_id.json', 'r') as f:
-    knowledge_base_id = json.load(f)
+# with open('/tmp/knowledge_base_id.json', 'r') as f:
+#     knowledge_base_id = json.load(f)
 
 boto3_session = boto3.session.Session()
 bedrock_runtime = boto3_session.client('bedrock-runtime')
@@ -66,8 +66,8 @@ def process_query(query, context):
         retrievalQuery = {
             'text': query
         },
-        knowledgeBaseId = knowledge_base_id,
-        # knowledgeBaseId = 'CYSGMDTTYU',
+        # knowledgeBaseId = knowledge_base_id,
+        knowledgeBaseId = 'CYSGMDTTYU',
         retrievalConfiguration= {
             'vectorSearchConfiguration': {
                 'numberOfResults': 3
@@ -115,7 +115,6 @@ with st.sidebar:
         label="Number of tokens to generate",
         key="max_new_token"
     )
-    
     col1, col2 = st.columns([4,1])
     with col1:
         temperature = st.slider(
@@ -142,15 +141,6 @@ with st.sidebar:
             label="Top K",
             key="top_k"
         )
-    # with col2:
-    #     top_k = st.slider(
-    #         min_value=0,
-    #         max_value=500,
-    #         step=1,
-    #         value=250,
-    #         label="Top K",
-    #         key="top_k"
-    #     )
     st.sidebar.button("Clear Conversation", type="primary", key="clear_conversation", on_click=clear_conversation)
 
 with st.chat_message("assistant"):
