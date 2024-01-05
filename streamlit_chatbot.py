@@ -88,8 +88,6 @@ def build_context(context, query, output_str):
 
 with st.sidebar:
     st.title('Bedrock-Claude-ChatBot 🎈')
-    # aws_access_key = st.text_input("AWS Access Key", key="aws_access_key", type="password")
-    # aws_secret_key = st.text_input("AWS Secret Key", key="aws_secret_key", type="password")
     st.subheader('Models and parameters')
     model_id = st.sidebar.selectbox('Choose a llm model', ['Anthropic Claude-V2', 'Anthropic Claude-V2.1', 'Anthropic Claude-Instant-V1.2'], key='model_id')
     if model_id == 'Anthropic Claude-V2':
@@ -100,14 +98,6 @@ with st.sidebar:
         else:
             if model_id == 'Anthropic Claude-Instant-V1.2':
                 model_id = 'anthropic.claude-instant-v1'
-    # max_new_tokens= st.slider(
-    #     min_value=10,
-    #     max_value=8096,
-    #     step=1,
-    #     value=2048,
-    #     label="Number of tokens to generate",
-    #     key="max_new_token"
-    # )
     max_new_tokens= st.number_input(
         min_value=10,
         max_value=8096,
@@ -146,13 +136,16 @@ with st.sidebar:
 
 with st.chat_message("assistant"):
     st.write("欢迎👋👋👋，有什么我可以帮助到您吗？💬")    
+    
 # Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
+    
 # Display chat messages from history on app rerun
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+        
 # React to user input
 if query := st.chat_input("说点什么吧"):
     # Add user message to chat history
@@ -173,18 +166,20 @@ if query := st.chat_input("说点什么吧"):
             "top_k": top_k,
             "stop_sequences": ["\n\nHuman:", "\n\n</", "</"]
         })
-        response = bedrock_runtime.invoke_model_with_response_stream(body=body, modelId=model_id)
-        stream = response.get('body')
-        if stream:
-            for event in stream:
-                chunk = event.get('chunk')
-                if chunk:
-                    output = json.loads(chunk.get('bytes').decode())
-                    full_response += output['completion'] + ''
-                    # full_response_clean = re.sub(r'<\s*/?\w+[^>]*>', '', full_response) # Remove full tags
-                    # full_response_final = re.sub(r'</\w+', '', full_response_clean) # Remove imcomplete tags
-                    # message_placeholder.markdown(full_response_final)
-                    message_placeholder.markdown(full_response)
+        with st.spinner('请稍等......'):
+            response = bedrock_runtime.invoke_model_with_response_stream(body=body, modelId=model_id)
+            stream = response.get('body')
+            if stream:
+                for event in stream:
+                    chunk = event.get('chunk')
+                    if chunk:
+                        output = json.loads(chunk.get('bytes').decode())
+                        full_response += output['completion'] + ''
+                        # full_response_clean = re.sub(r'<\s*/?\w+[^>]*>', '', full_response) # Remove full tags
+                        # full_response_final = re.sub(r'</\w+', '', full_response_clean) # Remove imcomplete tags
+                        # message_placeholder.markdown(full_response_final)
+                        message_placeholder.markdown(full_response)
+                        
     # Add assistant response to chat history
     # st.session_state.messages.append({"role": "assistant", "content": full_response_final})
     st.session_state.messages.append({"role": "assistant", "content": full_response})
